@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fixed on mickens</title>
+    <link>//colemickens.io/fixed/</link>
+    <description>Recent content in Fixed on mickens</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 18 Dec 2014 21:52:37 -0800</lastBuildDate>
+    <atom:link href="//colemickens.io/fixed/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>about</title>
+      <link>//colemickens.io/about/</link>
+      <pubDate>Thu, 18 Dec 2014 21:52:37 -0800</pubDate>
+      
+      <guid>//colemickens.io/about/</guid>
+      <description>
+
+&lt;h1 id=&#34;about-cole&#34;&gt;about cole&lt;/h1&gt;
+
+&lt;p&gt;Hi. What&amp;rsquo;s up?&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>projects</title>
+      <link>//colemickens.io/projects/</link>
+      <pubDate>Thu, 18 Dec 2014 21:52:37 -0800</pubDate>
+      
+      <guid>//colemickens.io/projects/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/colemickens?tab=repositories&#34;&gt;GitHub: colemickens&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>resume</title>
+      <link>//colemickens.io/resume/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//colemickens.io/resume/</guid>
+      <description>
+
+&lt;h1 id=&#34;resume&#34;&gt;resume&lt;/h1&gt;
+
+&lt;p&gt;My latest resume can be found here: &lt;a href=&#34;https://docs.google.com/document/d/1LhG6XsiTOs24upHLTtvKwmYZYFF3KN78W6EUat274ss/edit?usp=sharing&#34;&gt;Resume - latest&lt;/a&gt; (&lt;a href=&#34;https://docs.google.com/document/d/1LhG6XsiTOs24upHLTtvKwmYZYFF3KN78W6EUat274ss/export?format=pdf&#34;&gt;direct PDF download&lt;/a&gt;)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>what i use</title>
+      <link>//colemickens.io/what-i-use/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//colemickens.io/what-i-use/</guid>
+      <description>
+
+&lt;h1 id=&#34;what-i-use&#34;&gt;what i use&lt;/h1&gt;
+
+&lt;h2 id=&#34;home-desktop&#34;&gt;home desktop&lt;/h2&gt;
+
+&lt;p&gt;stuff&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

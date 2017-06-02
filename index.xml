@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mickens</title>
+    <link>//colemickens.io/</link>
+    <description>Recent content on mickens</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 07 Apr 2015 00:00:00 -0600</lastBuildDate>
+    <atom:link href="//colemickens.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Arch Linux on the Chromebook Pixel LS (2015)</title>
+      <link>//colemickens.io/blog/2015-04-07-arch-linux-on-the-chromebook-pixel-ls-2015/</link>
+      <pubDate>Tue, 07 Apr 2015 00:00:00 -0600</pubDate>
+      
+      <guid>//colemickens.io/blog/2015-04-07-arch-linux-on-the-chromebook-pixel-ls-2015/</guid>
+      <description>
+
+&lt;p&gt;(Updated April 24, 2015)&lt;/p&gt;
+
+&lt;p&gt;The Chromebook Pixel (2015) is one of my favorite new toys. Another fantastic revision of hardware from Google, and still relatively easy to get Linux on it. As it stands, this is easily my favorite hardware for running Linux on. That having been said, I&amp;rsquo;ve been telling others that I am running GNOME3 happily on my Pixel as a day-to-day machine and they have been asking for details. Hopefully this post can serve as an outline of the steps needed!&lt;/p&gt;
+
+&lt;p&gt;Note, all of the credit goes to &lt;a href=&#34;https://github.com/tsowell/linux-samus&#34;&gt;tsowell&lt;/a&gt; and &lt;a href=&#34;https://github.com/raphael/linux-4.1-samus&#34;&gt;raphael&lt;/a&gt; and the &lt;a href=&#34;https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices/chromebook-pixel-2015&#34;&gt;Chromium page on the Chromebook Pixel 2015&lt;/a&gt;. I&amp;rsquo;ve just recombined and referenced their work here.&lt;/p&gt;
+
+&lt;h2 id=&#34;put-the-pixel-into-dev-mode&#34;&gt;Put the Pixel into Dev Mode&lt;/h2&gt;
+
+&lt;p&gt;Shut down the Chromebook Pixel. Hold &lt;code&gt;Escape&lt;/code&gt; and &lt;code&gt;Refresh&lt;/code&gt; and tap the power button long enough for the laptop to begin powering on (the display and keyboard backlight will turn on). This will take you to a scary warning screen, whereupon you have to know to press &lt;code&gt;Ctrl+D&lt;/code&gt;. This will initiate the transition into development mode. Follow the on-screen instructions.&lt;/p&gt;
+
+&lt;p&gt;Your Pixel will restart to the scary Development Mode boot screen that you will now see at each (re)boot. Pressing &lt;code&gt;Ctrl+D&lt;/code&gt; will allow it to continue and boot into ChromeOS normally. However, this time, rather than logging into ChromeOS, you can immediately press &lt;code&gt;Ctrl+Alt+F2&lt;/code&gt; to get to a TTY. From here, you&amp;rsquo;ll issue the following commands to enable legacy (non-EFI, aka SeaBIOS) and usb booting:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo crossystem dev_boot_legacy=1
+sudo crossystem dev_boot_usb=1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;install-arch-linux&#34;&gt;Install Arch Linux&lt;/h2&gt;
+
+&lt;p&gt;After issuing the &lt;code&gt;crossystem&lt;/code&gt; commands, simply reboot the machine. This time, press &lt;code&gt;Ctrl+L&lt;/code&gt; to engage the legacy SeaBIOS boot mode, and then press &lt;code&gt;F2&lt;/code&gt; to get to the boot menu and choose your Arch installation media.&lt;/p&gt;
+
+&lt;p&gt;From here, well, hopefully you know the drill. The &lt;a href=&#34;https://wiki.archlinux.org/&#34;&gt;Arch Wiki&lt;/a&gt; is fantastic. Follow the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Installation_guide&#34;&gt;Installation Guide&lt;/a&gt;, removing the GPT and performing an MBR/Grub2 install.&lt;/p&gt;
+
+&lt;h2 id=&#34;install-the-custom-kernel&#34;&gt;Install the custom kernel&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/raphael&#34;&gt;raphael&lt;/a&gt; is maintaining &lt;a href=&#34;https://github.com/raphael/linux-4.1-samus&#34;&gt;a set of kernel patches for Arch and Ubuntu users&lt;/a&gt;. The patched kernel can be installed via the &lt;a href=&#34;https://aur.archlinux.org/packages/linux-samus4/&#34;&gt;linux-samus4&lt;/a&gt; package from the AUR. I assume that &lt;a href=&#34;https://wiki.archlinux.org/index.php/Yaourt&#34;&gt;yaourt&lt;/a&gt; is already installed; if you use a different &lt;a href=&#34;https://wiki.archlinux.org/index.php/AUR_helpers&#34;&gt;AUR helper&lt;/a&gt; then substitute as appropriate.&lt;/p&gt;
+
+&lt;p&gt;Note, you&amp;rsquo;ll need to allow GPG to download keys in order for the package to be able to verify the tar archives that they download.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;keyserver-options auto-key-retrieve&amp;quot; &amp;gt;&amp;gt; ~/.gnupg/gpg.conf
+yaourt -S linux-samus
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, running &lt;code&gt;grub-mkconfig &amp;gt; /boot/grub/grub.cfg&lt;/code&gt; will create a new grub boot configuration (it will default to the new &lt;code&gt;linux-samus&lt;/code&gt; kernel).&lt;/p&gt;
+
+&lt;h2 id=&#34;fixing-touchpad-touchscreen-sounds&#34;&gt;Fixing touchpad, touchscreen, sounds&lt;/h2&gt;
+
+&lt;p&gt;The README.md explains the steps needed to enable audio and touch(pad|screen) drivers. I did make some changes to my pulseaudio configuration (&lt;code&gt;/etc/pulse/default.pa&lt;/code&gt;) to set the default device &amp;ndash; I added &lt;code&gt;load-module module-alsa-sink device=hw:0,0 sink_name=default&lt;/code&gt; before line 47 and added &lt;code&gt;set-default-sink default&lt;/code&gt; to the very bottom.&lt;/p&gt;
+
+&lt;h2 id=&#34;faq&#34;&gt;FAQ&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-how-can-i-bypass-the-scary-screen-on-boot&#34;&gt;1. How can I bypass the scary screen on boot?&lt;/h3&gt;
+
+&lt;p&gt;You can&amp;rsquo;t, without opening your Pixel, removing the write-protect screw and then issuing a command to change the GBB (Google Binary Block) flags. These flags control aspects of the boot such as what devices to boot from, whether to require the bits be signed by Google, etc. These are the first step in ChromeOS&amp;rsquo;s verified boot.&lt;/p&gt;
+
+&lt;p&gt;If these flags were able to be modified without opening the device, then one could spoof ChromeOS and steal user secrets. Opening the device, apparently, is enough of a deterrent.&lt;/p&gt;
+
+&lt;h3 id=&#34;2-do-i-need-to-flash-a-custom-seabios&#34;&gt;2. Do I need to flash a custom SeaBIOS?&lt;/h3&gt;
+
+&lt;p&gt;Probably not. The SeaBIOS that ships on the device is capable of booting Linux, and initiazes devices properly such that suspend/resume work as expected. The original Chromebook Pixel did not initialize the TPM properly, leading to reboots instead of resuming.&lt;/p&gt;
+
+&lt;h3 id=&#34;3-do-i-need-to-worry-about-my-pixel-losing-power-completely&#34;&gt;3. Do I need to worry about my Pixel losing power completely?&lt;/h3&gt;
+
+&lt;p&gt;No! The original Chromebook Pixel persisted developer mode flags in a volatile location which could be wiped in some cases. This was a real problem if one had installed Linux, as it meant that you could no longer boot until you restored ChromeOS, fixed flags and reinstalled Linux. (If you happen to get into such a state with your original Pixel (2013), there is an easier way which can be found on the &lt;a href=&#34;https://sites.google.com/a/chromium.org/dev/chromium-os/developer-information-for-chrome-os-devices/workaround-for-battery-discharge-in-dev-mode&#34;&gt;Chromium Wiki&lt;/a&gt;.)&lt;/p&gt;
+
+&lt;h3 id=&#34;4-what-doesn-t-work&#34;&gt;4. What doesn&amp;rsquo;t work?&lt;/h3&gt;
+
+&lt;p&gt;The USB3.1 Type-C to DisplayPort adapter does not work with displays that are in DisplayPort 1.2 (MST) mode. Additionally, my monitors that were once put into this mode and then switched back, actually had to be factory reset to work with the adapter.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>//colemickens.io/about/</link>
+      <pubDate>Thu, 18 Dec 2014 21:52:37 -0800</pubDate>
+      
+      <guid>//colemickens.io/about/</guid>
+      <description>
+
+&lt;h1 id=&#34;about-cole&#34;&gt;about cole&lt;/h1&gt;
+
+&lt;p&gt;Hi. What&amp;rsquo;s up?&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>projects</title>
+      <link>//colemickens.io/projects/</link>
+      <pubDate>Thu, 18 Dec 2014 21:52:37 -0800</pubDate>
+      
+      <guid>//colemickens.io/projects/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/colemickens?tab=repositories&#34;&gt;GitHub: colemickens&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>resume</title>
+      <link>//colemickens.io/resume/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//colemickens.io/resume/</guid>
+      <description>
+
+&lt;h1 id=&#34;resume&#34;&gt;resume&lt;/h1&gt;
+
+&lt;p&gt;My latest resume can be found here: &lt;a href=&#34;https://docs.google.com/document/d/1LhG6XsiTOs24upHLTtvKwmYZYFF3KN78W6EUat274ss/edit?usp=sharing&#34;&gt;Resume - latest&lt;/a&gt; (&lt;a href=&#34;https://docs.google.com/document/d/1LhG6XsiTOs24upHLTtvKwmYZYFF3KN78W6EUat274ss/export?format=pdf&#34;&gt;direct PDF download&lt;/a&gt;)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>what i use</title>
+      <link>//colemickens.io/what-i-use/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//colemickens.io/what-i-use/</guid>
+      <description>
+
+&lt;h1 id=&#34;what-i-use&#34;&gt;what i use&lt;/h1&gt;
+
+&lt;h2 id=&#34;home-desktop&#34;&gt;home desktop&lt;/h2&gt;
+
+&lt;p&gt;stuff&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
